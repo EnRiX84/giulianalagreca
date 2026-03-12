@@ -129,18 +129,41 @@
     window.addEventListener('scroll', updateActiveLink, { passive: true });
     updateActiveLink();
 
-    // ========== GALLERY LIGHTBOX ==========
+    // ========== GALLERY LIGHTBOX CAROUSEL ==========
 
     var lightbox = document.getElementById('lightbox');
     var lightboxImg = document.getElementById('lightboxImg');
+    var lightboxCounter = document.getElementById('lightboxCounter');
     var lightboxClose = lightbox ? lightbox.querySelector('.lightbox-close') : null;
+    var lightboxPrev = lightbox ? lightbox.querySelector('.lightbox-prev') : null;
+    var lightboxNext = lightbox ? lightbox.querySelector('.lightbox-next') : null;
+    var galleryItems = document.querySelectorAll('.gallery-item');
+    var currentIndex = 0;
 
-    document.querySelectorAll('.gallery-item').forEach(function (item) {
-        item.addEventListener('click', function () {
-            var img = this.querySelector('img');
-            if (!img || !lightbox || !lightboxImg) return;
+    function showSlide(index) {
+        if (!lightbox || !lightboxImg || !galleryItems.length) return;
+        // Loop circolare
+        if (index < 0) index = galleryItems.length - 1;
+        if (index >= galleryItems.length) index = 0;
+        currentIndex = index;
+
+        var img = galleryItems[currentIndex].querySelector('img');
+        if (!img) return;
+        lightboxImg.style.opacity = '0';
+        setTimeout(function () {
             lightboxImg.src = img.src;
             lightboxImg.alt = img.alt;
+            lightboxImg.style.opacity = '1';
+        }, 150);
+
+        if (lightboxCounter) {
+            lightboxCounter.textContent = (currentIndex + 1) + ' / ' + galleryItems.length;
+        }
+    }
+
+    galleryItems.forEach(function (item, index) {
+        item.addEventListener('click', function () {
+            showSlide(index);
             lightbox.classList.add('show');
             document.body.style.overflow = 'hidden';
         });
@@ -156,17 +179,49 @@
         lightboxClose.addEventListener('click', closeLightbox);
     }
 
+    if (lightboxPrev) {
+        lightboxPrev.addEventListener('click', function (e) {
+            e.stopPropagation();
+            showSlide(currentIndex - 1);
+        });
+    }
+
+    if (lightboxNext) {
+        lightboxNext.addEventListener('click', function (e) {
+            e.stopPropagation();
+            showSlide(currentIndex + 1);
+        });
+    }
+
     if (lightbox) {
         lightbox.addEventListener('click', function (e) {
             if (e.target === lightbox) closeLightbox();
         });
     }
 
+    // Tastiera: frecce + Escape
     document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && lightbox && lightbox.classList.contains('show')) {
-            closeLightbox();
-        }
+        if (!lightbox || !lightbox.classList.contains('show')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showSlide(currentIndex - 1);
+        if (e.key === 'ArrowRight') showSlide(currentIndex + 1);
     });
+
+    // Swipe touch su mobile
+    var touchStartX = 0;
+    if (lightbox) {
+        lightbox.addEventListener('touchstart', function (e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightbox.addEventListener('touchend', function (e) {
+            var diff = touchStartX - e.changedTouches[0].screenX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) showSlide(currentIndex + 1);
+                else showSlide(currentIndex - 1);
+            }
+        }, { passive: true });
+    }
 
     // ========== INTERSECTION OBSERVER - FADE IN ANIMATIONS ==========
 
