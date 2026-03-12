@@ -129,6 +129,45 @@
     window.addEventListener('scroll', updateActiveLink, { passive: true });
     updateActiveLink();
 
+    // ========== GALLERY LIGHTBOX ==========
+
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightboxImg');
+    var lightboxClose = lightbox ? lightbox.querySelector('.lightbox-close') : null;
+
+    document.querySelectorAll('.gallery-item').forEach(function (item) {
+        item.addEventListener('click', function () {
+            var img = this.querySelector('img');
+            if (!img || !lightbox || !lightboxImg) return;
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    function closeLightbox() {
+        if (!lightbox) return;
+        lightbox.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    if (lightboxClose) {
+        lightboxClose.addEventListener('click', closeLightbox);
+    }
+
+    if (lightbox) {
+        lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox && lightbox.classList.contains('show')) {
+            closeLightbox();
+        }
+    });
+
     // ========== INTERSECTION OBSERVER - FADE IN ANIMATIONS ==========
 
     var animatedElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
