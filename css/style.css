@@ -604,6 +604,116 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.7;
 }
 
+/* --- Galleria --- */
+.gallery {
+    background: var(--bg-primary);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, filter var(--transition);
+    filter: brightness(0.85);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+    filter: brightness(1);
+}
+
+.gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: border-color var(--transition);
+}
+
+.gallery-item:hover::after {
+    border-color: var(--accent-gold-transparent);
+}
+
+.gallery-placeholder {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    background: var(--bg-tertiary);
+    border: 1px dashed var(--accent-gold-transparent);
+    border-radius: 8px;
+    text-align: center;
+    gap: 16px;
+}
+
+.gallery-placeholder i {
+    font-size: 3rem;
+    color: var(--accent-gold);
+    opacity: 0.5;
+}
+
+.gallery-placeholder p {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+}
+
+/* Lightbox */
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.lightbox-overlay.show {
+    display: flex;
+}
+
+.lightbox-overlay img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity var(--transition);
+}
+
+.lightbox-close:hover {
+    opacity: 1;
+}
+
 /* --- Perche Sceglierci --- */
 .why-us {
     background: var(--bg-primary);
@@ -1311,6 +1421,10 @@ h1, h2, h3, h4, h5, h6 {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .why-us-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1404,6 +1518,10 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
         grid-template-columns: 1fr;
     }
 
