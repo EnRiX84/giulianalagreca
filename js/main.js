@@ -6,6 +6,25 @@
 (function () {
     'use strict';
 
+    // ========== HERO FLOATING PARTICLES ==========
+
+    var particlesContainer = document.getElementById('heroParticles');
+    if (particlesContainer) {
+        var shapes = ['circle', 'cross', 'diamond'];
+        for (var i = 0; i < 25; i++) {
+            var particle = document.createElement('div');
+            var shape = shapes[Math.floor(Math.random() * shapes.length)];
+            particle.classList.add('particle', 'particle--' + shape);
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (6 + Math.random() * 6) + 's';
+            var size = 2 + Math.random() * 5;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particlesContainer.appendChild(particle);
+        }
+    }
+
     // ========== NAVBAR SCROLL BEHAVIOR ==========
 
     var header = document.getElementById('header');

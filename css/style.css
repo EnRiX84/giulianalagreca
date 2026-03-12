@@ -294,6 +294,118 @@ h1, h2, h3, h4, h5, h6 {
     pointer-events: none;
 }
 
+/* Floating Particles */
+.hero-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    background: var(--accent-gold);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.particle--circle {
+    animation: float-up 8s infinite ease-in-out;
+}
+
+.particle--cross {
+    background: none;
+    border-radius: 0;
+    animation: float-up-spin 10s infinite ease-in-out;
+}
+
+.particle--cross::before,
+.particle--cross::after {
+    content: '';
+    position: absolute;
+    background: var(--accent-gold);
+    border-radius: 1px;
+}
+
+.particle--cross::before {
+    width: 100%;
+    height: 30%;
+    top: 35%;
+    left: 0;
+}
+
+.particle--cross::after {
+    width: 30%;
+    height: 100%;
+    top: 0;
+    left: 35%;
+}
+
+.particle--diamond {
+    border-radius: 2px;
+    animation: float-up-diamond 9s infinite ease-in-out;
+}
+
+@keyframes float-up {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0);
+    }
+    10% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10vh) scale(1);
+    }
+}
+
+@keyframes float-up-spin {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0) rotate(0deg);
+    }
+    10% {
+        opacity: 0.35;
+    }
+    50% {
+        opacity: 0.25;
+    }
+    90% {
+        opacity: 0.15;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10vh) scale(1) rotate(180deg);
+    }
+}
+
+@keyframes float-up-diamond {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0) rotate(45deg);
+    }
+    10% {
+        opacity: 0.45;
+    }
+    50% {
+        opacity: 0.35;
+    }
+    90% {
+        opacity: 0.2;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10vh) scale(1) rotate(45deg);
+    }
+}
+
 .hero-banner-img {
     max-width: 700px;
     width: 100%;
