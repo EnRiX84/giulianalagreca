@@ -284,23 +284,22 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden;
 }
 
-.hero-banner {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.25;
-    pointer-events: none;
-}
-
-.hero-overlay {
+.hero::before {
+    content: '';
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at 50% 30%, rgba(201, 168, 76, 0.1) 0%, transparent 60%),
-        linear-gradient(180deg, rgba(17, 17, 17, 0.4) 0%, rgba(17, 17, 17, 0.8) 100%);
+        radial-gradient(ellipse at 50% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 100%, rgba(201, 168, 76, 0.05) 0%, transparent 50%);
     pointer-events: none;
+}
+
+.hero-banner-img {
+    max-width: 700px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto 32px;
+    filter: drop-shadow(0 0 30px rgba(201, 168, 76, 0.2));
 }
 
 .hero-content {
@@ -310,13 +309,6 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 800px;
 }
 
-.hero-logo {
-    width: 130px;
-    height: 130px;
-    object-fit: contain;
-    margin: 0 auto 32px;
-    filter: brightness(1.2) drop-shadow(0 0 20px rgba(201, 168, 76, 0.3));
-}
 
 .hero h1 {
     font-size: 3.5rem;
@@ -1554,9 +1546,8 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 2rem;
     }
 
-    .hero-logo {
-        width: 90px;
-        height: 90px;
+    .hero-banner-img {
+        max-width: 90%;
     }
 
     .hero-subtitle {
